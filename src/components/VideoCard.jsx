@@ -6,7 +6,7 @@ const VideoCard = ({info}) => {
   return (
     <div className='m-5' style={{maxWidth:'16rem'}}>
         <img src={thumbnails.medium.url} className="rounded-lg"/>
-        <h2>{title}</h2>
+        <h2 className='py-2 font-bold' style={{fontSize:'.9rem', fontFamily:'sans-serif'}}>{title}</h2>
         <h4 className='text-xs text-gray-700'>{channelTitle}</h4>
     </div>
   )
