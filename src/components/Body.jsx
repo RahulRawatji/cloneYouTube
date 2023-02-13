@@ -6,7 +6,7 @@ import VideoContainer from './VideoContainer';
 const Body = () => {
    
   return (
-    <div className='overflow-hidden'> 
+    <div className='overflow-hidden mx-5'> 
         <ButtonList/>
         <VideoContainer/>
     </div>

@@ -13,10 +13,9 @@ const VideoContainer = () => {
         const data  =  await response.json();
         setData(data.items);
     }
-    console.log(data);  
 
   return (
-    <div className='flex flex-wrap overflow-y-scroll scrollbar-hide' style={{maxHeight:'610px'}} >
+    <div className='flex flex-wrap overflow-y-scroll scrollbar-hide justify-center' style={{maxHeight:'610px'}} >
         {data.map(videoData=><VideoCard key={videoData.id} info={videoData}/>)}
     </div>
   )

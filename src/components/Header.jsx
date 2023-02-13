@@ -1,15 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleMenu } from '../utils/appSlice';
 import store from '../utils/store';
+import {AiOutlineSearch} from 'react-icons/ai';
+
+import { YOUTUBE_SEARCH_API } from '../utils/constant';
+import { cacheResult } from '../utils/searchSlice';
 
 const Header = () => {
     const isMenuOpen = useSelector(store => store.app.isMenuOpen)
-    console.log(isMenuOpen)
     const dispatch = useDispatch();
-    const showMenuHandler = ()=>{
+    const showMenuHandler = () => {
         dispatch(toggleMenu())
+    };
+
+    const inCache = useSelector(store=>store.search)
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchData, setSearchData] = useState([]);
+
+    useEffect(()=>{
+        const timer = setTimeout(()=>{
+            if(inCache[searchQuery]){
+                setSearchData(inCache[searchQuery])
+            }else{
+                fetchSearchResult();
+            }
+        },200)
+       
+
+        return(()=>{
+            clearTimeout(timer);
+        })
+    },[searchQuery])
+
+    const fetchSearchResult = async()=>{
+
+        const response = await fetch(YOUTUBE_SEARCH_API+searchQuery);
+        const data =  await response.json();
+        dispatch(cacheResult({
+            [searchQuery]:data[1]
+        }));
+        setSearchData(data[1]);    
+       
     }
+
     return (
         <div className='flex justify-between p-4 items-center'>
             <div className='flex gap-5 px-6 items-center basis-1/4'>
@@ -20,13 +55,18 @@ const Header = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-9 h-6 p-1 bg-red-500 rounded text-white">
                         <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
                     </svg>
-                    <span><h1 className='text-xl font-bold'>Namaste Youtube</h1></span>
+                    <span><h1 className='text-xl font-bold'>Namastube</h1></span>
 
                 </div>
             </div>
             <div className='flex gap-3 px-2 items-center justify-start basis-1/2'>
-                <div className='flex bg-gray-100 border rounded rounded-full items-center w-full gap-3'>
-                    <input placeholder='Search' className='px-4 py-2 rounded rounded-l-full w-11/12' />
+                <div className='flex bg-gray-100 border rounded rounded-full items-center w-full gap-3' style={{position:'relative'}}>
+                    <input placeholder='Search' className='px-5 py-2 rounded rounded-l-full w-11/12' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                    <div className='bg-white drop-shadow-lg rounded-lg' style={{minWidth:'640px', position:'absolute',top:'43px'}}>
+                        {searchData?.map(suggestion=>{
+                            return <div className='px-6 py-2 flex gap-3 items-center'><AiOutlineSearch size={18}/><h1>{suggestion}</h1></div>
+                        })}
+                    </div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
