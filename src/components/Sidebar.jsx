@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
 
     return (
-        <div className='pl-8 overflow-y-scroll scrollbar-hide' style={{maxHeight:'660px', minWidth:'250px',maxWidth:'250px'}}>
+        <div className='pl-8 overflow-y-scroll scrollbar-hide' style={{maxHeight:'660px', minWidth:'230px',maxWidth:'230px'}}>
             <div className='flex flex-col gap-4'>
                 <ul className='flex flex-col gap-2 border-b-2 pb-5'>
                 <Link to={"/"}> <li className='flex gap-3 hover:bg-gray-100 rounded p-2 cursor-pointer'><MdHomeFilled size={22}/>
