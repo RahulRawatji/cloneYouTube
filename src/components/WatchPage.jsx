@@ -14,7 +14,7 @@ const WatchPage = () => {
     const [searchParams] = useSearchParams();
     const [info, setInfo] = useState();
     const [showAll, setShowAll] = useState(320);
-
+    
     const videoId = searchParams.get("v");
 
     const VIDEO_SEARCH_API = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&maxResults=50&key=${import.meta.env.VITE_REACT_APP_API_KEY}`;
@@ -81,7 +81,7 @@ const WatchPage = () => {
                 </div>
             </div>
             <div className='basis-2/4'>
-                    {/* <ButtonList/> */}
+
                     <WatchPageSidebar/>
             </div>
         </div>

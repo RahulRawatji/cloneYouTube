@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { VIDEOAPI } from '../utils/constant';
-import VideoCard from './VideoCard';
 
 const WatchPageSidebar = () => {
   const [data, setData] = useState([]);
@@ -17,7 +16,7 @@ const WatchPageSidebar = () => {
 
   return (
     <div className='flex flex-wrap gap-4'>
-      {data.map(videoData => {
+      {data.slice(0,10).map(videoData => {
          const {snippet} = videoData;
          const {thumbnails, title, channelTitle} = snippet;
        return (
